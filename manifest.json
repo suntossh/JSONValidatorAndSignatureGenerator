@@ -1,0 +1,12 @@
+{
+    "name": "Local JSON validator with Private Key extractor and signature generator ",
+    "version": "1.0.0",
+    "description": "This is an extension to validate JSON, extract Private key and generate signature via Your Chrome extension locally",
+    "manifest_version": 3,
+    "author": "Santoshkumar Chandrabhan Pandey",
+    "action": {
+        "default_icon": "JSONIcon.png",
+        "default_popup": "index.html",
+        "default_title": "Local JSON validator"
+    }
+}

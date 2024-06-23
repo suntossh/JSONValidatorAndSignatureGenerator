@@ -1,0 +1,54 @@
+<!DOCTYPE html>
+<html>
+
+<head>
+  <title>JSON Parser</title>
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      margin: 10px;
+      padding: 10px;
+      width: 300px;
+    }
+
+    textarea {
+      width: 100%;
+      height: 150px;
+    }
+
+    pre {
+      background-color: #f4f4f4;
+      padding: 10px;
+      border: 1px solid #ccc;
+      white-space: pre-wrap;
+    }
+  </style>
+</head>
+
+<body>
+  <h1>JSON Parser & P12 Extractor</h1>
+  <h2>JSON Parser</h2>
+ 
+  <textarea id="jsonInput"
+    placeholder="Paste JSON here..."></textarea>
+ 
+  <button id="parseButton">Parse JSON</button>
+ 
+  <pre id="output"></pre>
+  <h2>P12 Extractor</h2>
+ 
+  <input type="file" id="p12FileInput" accept=".p12" />
+ 
+  <input type="password" id="p12PasswordInput" placeholder="Password" />
+ 
+  <button id="extractButton">Extract Private Key</button>
+  <pre id="p12Output"></pre>
+  <pre id="p13Output"></pre>
+ 
+  <button id="signButton">Sign Request</button>
+  <pre id="signatureOutput"></pre>
+  <script src="forge.min.js"></script>
+  <script src="popup.js"></script>
+</body>
+
+</html>
