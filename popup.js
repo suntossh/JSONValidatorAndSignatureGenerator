@@ -9,9 +9,11 @@ function updateGlobalConstant(newValue) {
 
 document.getElementById('parseButton').addEventListener('click', () => {
   const input = document.getElementById('jsonInput').value;
+  const messageContent = document.getElementById('messageContent').value;
   try {
     const parsed = JSON.parse(input);
     const jsonObject = JSON.parse(input);
+    parsed.request.message=messageContent;
     const requestObject = jsonObject.request.textContent;
     updateGlobalConstant(requestObject);
     document.getElementById('output').textContent = JSON.stringify(parsed, null, 2);
@@ -30,18 +32,19 @@ document.getElementById('signButton').addEventListener('click', async () => {
     const privateKey = await extractPrivateKey(arrayBuffer, password);
 
     if (privateKey) {
-      alert("globalConstant"+globalConstant);
+      //alert("globalConstant"+globalConstant);
       //const requestString = JSON.stringify(globalConstant);
-      const input = document.getElementById('jsonInput').value;  
+      const input = document.getElementById('output').textContent;  
       const jsonObject = JSON.parse(input);
       const requestString = JSON.stringify(jsonObject.request);
       //alert("requestString="+requestString);  
       const signature = signRequest(requestString, privateKey);
 //todo
       document.getElementById('signatureOutput').textContent = "Signature:\n" + signature;
-      const parsed = JSON.parse(input);
-      parsed.metadata.signature=signature;
-      document.getElementById('output').textContent = JSON.stringify(parsed, null, 2);
+      //const parsed = JSON.parse(input);
+      jsonObject.metadata.signature=signature;
+      document.getElementById('output').textContent = JSON.stringify(jsonObject, null, 2);
+      document.getElementById('signaturedMessage').textContent = JSON.stringify(jsonObject, null, 2);
     } else {
       throw new Error('Failed to extract private key.');
     }
@@ -87,11 +90,12 @@ function formatPrivateKey(privateKey) {
 document.getElementById('extractButton').addEventListener('click', () => {
   const fileInput = document.getElementById('p12FileInput');
   const passwordInput = document.getElementById('p12PasswordInput');
-  const outputElement = document.getElementById('p12Output');
+  //const outputElement = document.getElementById('p12Output');
   const outputElementForSignature = document.getElementById('p13Output');
 
   if (fileInput.files.length === 0) {
-      outputElement.textContent = 'Please select a P12 file.';
+      //outputElement.textContent = 'Please select a P12 file.';
+      outputElementForSignature.textContent = 'Please select a P12 file.';
       return;
   }
 
@@ -103,8 +107,8 @@ document.getElementById('extractButton').addEventListener('click', () => {
       const arrayBuffer = event.target.result;
       try {
           const privateKeyPem = extractPrivateKeyFromP12(arrayBuffer, password);
-          outputElement.textContent = privateKeyPem;
-          outputElementForSignature.textContent = formatPrivateKey(privateKeyPem)
+          //outputElement.textContent = privateKeyPem;
+          outputElementForSignature.textContent = "PKCS#8:\n" + formatPrivateKey(privateKeyPem)
 
       } catch (err) {
           outputElement.textContent = `Error extracting private key: ${err.message}`;
@@ -151,4 +155,16 @@ function extractPrivateKeyFromP12(arrayBuffer, password) {
   }
 
   return privateKeyPem;
+}
+
+function copyToClipboard() {
+  // Get the text from the jsonOutput element
+  const jsonOutput = document.getElementById('signaturedMessage').textContent;
+  
+  // Use the Clipboard API to copy the text
+  navigator.clipboard.writeText(jsonOutput).then(function() {
+      alert('JSON copied to clipboard!');
+  }).catch(function(err) {
+      alert('Failed to copy text: ', err);
+  });
 }

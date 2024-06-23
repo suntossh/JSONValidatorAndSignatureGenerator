@@ -26,12 +26,13 @@
 </head>
 
 <body>
-  <h1>JSON Parser & P12 Extractor</h1>
+  <h1>JSON Parser, P12 Extractor and Signature Creator</h1>
   <h2>JSON Parser</h2>
  
   <textarea id="jsonInput"
     placeholder="Paste JSON here..."></textarea>
- 
+  <textarea id="messageContent" 
+  placeholder="Paste Message here..."></textarea><br><br>
   <button id="parseButton">Parse JSON</button>
  
   <pre id="output"></pre>
@@ -42,11 +43,15 @@
   <input type="password" id="p12PasswordInput" placeholder="Password" />
  
   <button id="extractButton">Extract Private Key</button>
-  <pre id="p12Output"></pre>
+  <!--<pre id="p12Output"></pre>-->
   <pre id="p13Output"></pre>
  
+  <h2>Signature Creator</h2>
   <button id="signButton">Sign Request</button>
   <pre id="signatureOutput"></pre>
+  <h3>Finally Signed message</h3>
+  <pre id="signaturedMessage"></pre>
+  <!--<button type="button" onclick="copyToClipboard()">Copy to Clipboard</button>-->
   <script src="forge.min.js"></script>
   <script src="popup.js"></script>
 </body>
